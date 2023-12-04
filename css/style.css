@@ -264,6 +264,9 @@ a {
 	box-shadow: none;
 	border: none;
 }
+#email:placeholder {
+	color: white;
+}
 
 
 /* Footer Style */
@@ -737,4 +740,12 @@ a {
 		text-align: left;
 	} 
 
+}
+
+::placeholder {
+	color: #fff !important;
+}
+
+#email {
+	position: relative;
 }
