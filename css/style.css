@@ -749,3 +749,11 @@ a {
 #email {
 	position: relative;
 }
+
+.invalid {
+	border-color: red;
+}
+
+.text-muted {
+	display: none;
+}

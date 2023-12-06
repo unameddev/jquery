@@ -99,10 +99,122 @@ $(document).ready(function(){
         e.preventDefault();
 
         let elem = $(this).attr('rel')
-
         $('.modal-body').html($('#'+elem).html())
+        $('.modal-header h5.modal-title').html($(this).text())
+
+        let myModal = new bootstrap.Modal($('#modalId'))
+        myModal.show()
+
 
     });
 
+    /* 
+     *  TODO - Incrementar a validação
+     *  - checar se o nome é válido (mais de 2 caracteres)
+     *  - checar se o email é válido (ao menos um @ e um '.')
+     */ 
+
+    function validate(elem){
+
+        if(elem.val() == ''){
+            console.log('o campo de '+elem.attr('name')+' é obrigatorio')
+
+            elem.parent().find('.text-muted').show()
+
+            elem.addClass('invalid')
+
+            return false
+        } else {
+            elem.parent().find('.text-muted').hide()
+            elem.removeClass('invalid')
+        }
+
+        if(elem.attr('name') === 'nome'){
+
+            if(/^[a-zA-Z]+$/.test(elem.val())) {
+                elem.removeClass('invalid')
+                return false
+            } else {
+                elem.addClass('invalid')
+            }
+        }
+        
+
+        if(elem.attr('name') === 'email'){
+            
+            if(/^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?/i.test(elem.val())){
+                elem.removeClass('invalid')
+                return false
+            } else {
+                elem.addClass('invalid')
+            }
+        }
+    }
+
+    $('body').on('submit', '.modal-body .form', function(e){
+
+        e.preventDefault()
+
+        const inputName = $('#nome')
+        const inputEmail = $('#email')
+        const inputDate = $('#date')
+        const inputTime = $('#time')
+        const inputCep = $('#cep')
+        const inputPhone = $('#phone')
+        const inputCpf = $('#cpf')
+
+        validate(inputName)
+        validate(inputEmail)
+
+        if(inputEmail.hasClass('invalid') || inputName.hasClass('invalid') || inputDate.hasClass('invalid') || inputTime.hasClass('invalid') || inputCep.hasClass('invalid') || inputPhone.hasClass('invalid') || inputCpf.hasClass('invalid'))
+        {
+            console.log('verificar os campos obrigatórios')
+            return false
+        } else {
+            $(this).submit()
+        }
+
+    });
+
+    $('body').on('blur', '#nome', function(){
+        validate($(this))
+    });
+
+    $('document').on('focus', '#nome', function(){
+        $(document).tooltip()
+    })
+
+    $('body').on('blur', '#email', function(){
+        validate($(this))
+    });
+
+    $('body').on('focus', '#date', function(){
+        $(this).datepicker()
+    });
+
+    $('body').on('blur', '#date', function(){
+        validate($(this))
+        $(this).mask('00/00/0000');
+    });
+
+    $('body').on('blur', '#time', function(){
+        validate($(this))
+        $(this).mask('00:00');
+    });
+
+    $('body').on('blur', '#cep', function(){
+        validate($(this))
+        $(this).mask('00000-000');
+    });
+
+    $('body').on('blur', '#phone', function(){
+        validate($(this))
+        $(this).mask('(00) 00000-0000');
+    });
+
+    $('body').on('blur', '#cpf', function(){
+        validate($(this))
+        $(this).mask('000.000.000-00');
+    });
 
 });
